@@ -106,7 +106,22 @@ class UserController{
 
     public function delete($id)
     {
+        header('Access-Control-Allow-Origin:*');
+        header('Content-Type:application/json;charset=utf-8');
+        header('Access-Control-Allow-Method:DELETE');
+        header('Access-Control-Allow-Headers:Content-Type,Access-Control-Allow-Headers,Authorization,x-Request-With');
 
+        $user=$this->user->show($id);
+        if(!$user){
+            return Response::notFound('user not found');
+        }
+
+        $deleteUser=$this->user->delete($id);
+        if($deleteUser){
+            return Response::delete();
+        }else{
+            return Response::notFound();
+        }
     }
 
 

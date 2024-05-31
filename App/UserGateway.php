@@ -101,4 +101,11 @@ class UserGateway{
         
     }
 
+    public function delete($id)
+    {
+        $query="DELETE FROM users WHERE id='$id' LIMIT 1";
+        $result=mysqli_query($this->connection,$query);
+        return $result;
+    }
+
 }
