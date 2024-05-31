@@ -16,6 +16,8 @@ class UserController{
                 case "DELETE":
                     $this->delete($id);
                     break; 
+                default:
+                    Response::notAllowed($method);     
             }
         }  
         
@@ -27,6 +29,8 @@ class UserController{
                 case "POST":
                     $this->store();
                     break;
+                default:
+                    Response::notAllowed($method);     
             }
         }
     }
