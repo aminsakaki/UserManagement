@@ -14,3 +14,4 @@ $id = $parts[3] ?? null;
 
 $model=new UserGateway();
 $controller=new UserController($model);
+$controller->processRequest($_SERVER["REQUEST_METHOD"], $id);
