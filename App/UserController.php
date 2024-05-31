@@ -79,7 +79,29 @@ class UserController{
 
     public function update($id)
     {
+        error_reporting(0);
+        header('Access-Control-Allow-Origin:*');
+        header('Content-Type:application/json;charset=utf-8');
+        header('Access-Control-Allow-Method:PUT');
+        header('Access-Control-Allow-Headers:Content-Type,Access-Control-Allow-Headers,Authorization,x-Request-With');
 
+        $user=$this->user->show($id);
+        if(!$user){
+            return Response::notFound('user not found');
+        }
+
+        $inputData=json_decode(file_get_contents("php://input"),true);
+        if(empty($inputData)){
+            $updateUser=$this->user->update($_POST,$user);
+        }else{
+            $updateUser=$this->user->update($inputData,$user);   
+        }
+
+        if($updateUser){
+            return Response::success($updateUser,'user update successfully');
+        }else{
+            return Response::error('internal server error');
+        }
     }
 
     public function delete($id)

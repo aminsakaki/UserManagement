@@ -51,5 +51,54 @@ class UserGateway{
         $results = $this->connection->query($query);
         return $results;
     }
-    
+
+    public function update($inputs,$user){
+
+        $id=$user['id'];
+
+        if($inputs['name']){
+            $name=mysqli_real_escape_string($this->connection,$inputs['name']);
+        }else{
+            $name=$user['name'];
+        }
+        
+        if($inputs['email']){
+            $email=mysqli_real_escape_string($this->connection,$inputs['email']);
+        }else{
+            $email=$user['email'];
+        }
+
+        if($inputs['phone']){           
+            $phone=mysqli_real_escape_string($this->connection,$inputs['phone']);
+        }else{
+            $phone=$user['phone'];
+        }
+
+        $query="UPDATE users SET name='$name' ,email ='$email',phone='$phone' WHERE id='$id'";
+        $result=mysqli_query($this->connection,$query);
+
+        $query2="SELECT * FROM users WHERE id = $id";
+        $result2=mysqli_query($this->connection,$query2);
+        if($result){
+            $res=mysqli_fetch_assoc($result2);  
+        }else{
+            return Response::error();
+        }
+        return $res;
+    }
+
+    public function show(string $id)
+    {
+
+        $query="SELECT * FROM users WHERE id = $id";
+        $result=mysqli_query($this->connection,$query);
+        if($result){
+            $res=mysqli_fetch_assoc($result);  
+        }else{
+            return Response::error();
+        }
+        return $res;
+        
+    }
+
 }
