@@ -42,7 +42,24 @@ class UserController{
 
     public function store()
     {
+        error_reporting(0);
+        header('Access-Control-Allow-Origin:*');
+        header('Content-Type:application/json;charset=utf-8');
+        header('Access-Control-Allow-Method:POST');
+        header('Access-Control-Allow-Headers:Content-Type,Access-Control-Allow-Headers,Authorization,x-Request-With');
 
+        $inputData=json_decode(file_get_contents("php://input"),true);
+            if(empty($inputData)){
+                $storeUserId=$this->user->insert($_POST);
+            }else{
+                $storeUserId=$this->user->insert($inputData);
+            }
+
+            if($storeUserId){
+                return Response::create($storeUserId,'user create successfully');
+            }else{
+                return Response::error('internal server error');
+            }
     }
 
     public function update($id)

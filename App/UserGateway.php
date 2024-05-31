@@ -10,4 +10,32 @@ class UserGateway{
             die("Connection failed: " . $this->connection->connect_error);
         }
     }
+
+    public function insert($userInput) 
+    {
+
+    $name=mysqli_real_escape_string($this->connection,$userInput['name']);
+    $email=mysqli_real_escape_string($this->connection,$userInput['email']);
+    $phone=mysqli_real_escape_string($this->connection,$userInput['phone']);
+
+        if(empty(trim($name))){
+
+            return Response::validate('enter your name');
+        }elseif(empty(trim($email))){
+            return Response::validate('enter your email');
+        }elseif(empty(trim($phone))){
+            return Response::validate('enter your phone');
+        }
+        else
+        {
+            $query="INSERT INTO users (name,email,phone) VALUES ('$name','$email','$phone')";
+            $result=mysqli_query($this->connection,$query);
+            if($result){           
+                return mysqli_insert_id($this->connection);  
+            }
+            else{
+                return false;
+            }
+        }
+    }
 }
