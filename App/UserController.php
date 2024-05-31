@@ -37,7 +37,22 @@ class UserController{
 
     public function index()
     {
+        header('Access-Control-Allow-Origin:*');
+        header('Content-Type:application/json;charset=utf-8');
+        header('Access-Control-Allow-Method:GET');
+        header('Access-Control-Allow-Headers:Content-Type,Access-Control-Allow-Headers,Authorization,x-Request-With');
 
+        $query_run=$this->user->get();
+        if($query_run){
+            if(mysqli_num_rows($query_run) > 0){
+                $res=mysqli_fetch_all($query_run,MYSQLI_ASSOC);
+                return Response::success($res,'users list fetch successfully');
+            }else{
+                return Response::notFound('no users found');
+            }
+        }else{
+            return Response::error('internal server error');
+        }
     }
 
     public function store()

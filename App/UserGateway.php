@@ -38,4 +38,18 @@ class UserGateway{
             }
         }
     }
+
+    public function get($where = "") 
+    {
+
+        $query = "SELECT * FROM users";
+
+        if (strlen($where)) {                 
+            $query .= " WHERE " . $where;       
+        }
+
+        $results = $this->connection->query($query);
+        return $results;
+    }
+    
 }
